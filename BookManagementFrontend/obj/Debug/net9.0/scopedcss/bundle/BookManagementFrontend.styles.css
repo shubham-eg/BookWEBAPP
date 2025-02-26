@@ -160,3 +160,135 @@ main[b-csjj944nyr] {
         overflow-y: auto;
     }
 }
+/* /Pages/Books.razor.rz.scp.css */
+/* Books.razor.css */
+
+.mud-container[b-qie9mfmivl]{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Card Styles */
+.mud-card[b-qie9mfmivl] {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.mud-card-content[b-qie9mfmivl] {
+    padding: 16px;
+}
+
+/* Search Bar Styles */
+.custom-search-field[b-qie9mfmivl] {
+    width: 300px;
+    margin-right: 10px;
+}
+
+    .custom-search-field .mud-icon-root[b-qie9mfmivl] {
+        font-size: 18px; /* Adjust icon size */
+        width: 18px;
+        height: 18px;
+    }
+
+/* Button Styles */
+.mud-button[b-qie9mfmivl] {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.mud-button-success[b-qie9mfmivl] {
+    background-color: #4caf50; /* Green */
+    border-color: #4caf50;
+}
+
+    .mud-button-success:hover[b-qie9mfmivl] {
+        background-color: #43a047; /* Darker green */
+        border-color: #43a047;
+    }
+
+.mud-button-warning[b-qie9mfmivl] {
+    background-color: #ff9800; /* Orange */
+    border-color: #ff9800;
+}
+
+    .mud-button-warning:hover[b-qie9mfmivl] {
+        background-color: #fb8c00; /* Darker orange */
+        border-color: #fb8c00;
+    }
+
+.mud-button-error[b-qie9mfmivl] {
+    background-color: #f44336; /* Red */
+    border-color: #f44336;
+}
+
+    .mud-button-error:hover[b-qie9mfmivl] {
+        background-color: #e53935; /* Darker red */
+        border-color: #e53935;
+    }
+
+.mud-button-secondary[b-qie9mfmivl] {
+    background-color: #6c757d; /* Gray */
+    border-color: #6c757d;
+}
+
+    .mud-button-secondary:hover[b-qie9mfmivl] {
+        background-color: #5a6268; /* Darker gray */
+        border-color: #5a6268;
+    }
+
+/* Table Styles */
+.mud-table[b-qie9mfmivl] {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+    .mud-table th[b-qie9mfmivl] {
+        background-color: #f5f5f5;
+        color: #333;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .mud-table tr:hover[b-qie9mfmivl] {
+        background-color: #f9f9f9;
+    }
+
+/* Modal Styles */
+.mud-overlay[b-qie9mfmivl] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mud-card.modal-card[b-qie9mfmivl] {
+    width: 100%;
+    max-width: 500px;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mud-card-header[b-qie9mfmivl] {
+    background-color: #6c757d;
+    color: white;
+    border-radius: 8px 8px 0 0;
+    padding: 16px;
+}
+
+.mud-card-actions[b-qie9mfmivl] {
+    justify-content: flex-end;
+    padding: 16px;
+}
+
+/* Icon Styles */
+.mud-icon[b-qie9mfmivl] {
+    margin-left: 5px;
+}
+
+/* General Styles */

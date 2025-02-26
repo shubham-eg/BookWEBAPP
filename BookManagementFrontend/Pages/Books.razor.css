@@ -1,7 +1,6 @@
-/* Books.razor.css */
+﻿/* Books.razor.css */
 
-/* General Styles */
-.mud-container {
+.mud-container{
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -128,3 +127,5 @@
 .mud-icon {
     margin-left: 5px;
 }
+
+/* General Styles */
