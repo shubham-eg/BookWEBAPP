@@ -1,0 +1,144 @@
+﻿@page "/books"
+@using MudBlazor
+@inject BookService BookService
+
+<MudContainer Class="mud-container">
+    <MudCard Class="mud-card">
+        <MudCardContent Class="mud-card-content">
+            <MudText Typo="Typo.h4">Book Management</MudText>
+
+            <!-- Search Bar -->
+            <MudTextField @bind-Value="searchQuery"
+                          Placeholder="Search for a book"
+                          Adornment="Adornment.Start"
+                          Immediate="true"
+                          OnInput="UpdateSearch"
+                          Class="custom-search-field" />
+
+
+            <MudButton OnClick="ClearSearch" Color="Color.Secondary" Class="mud-button-secondary ml-2" Size="Size.Small">
+                Cancel <MudIcon Icon="@Icons.Material.Filled.Close" Class="mud-icon"></MudIcon>
+            </MudButton>
+
+            <!-- Add Book Button -->
+            <MudButton OnClick="() => OpenDialog(null)" Color="Color.Success" Class="mud-button-success ml-2" Size="Size.Small">
+                Add Book <MudIcon Icon="@Icons.Material.Filled.Add" Class="mud-icon"></MudIcon>
+            </MudButton>
+        </MudCardContent>
+    </MudCard>
+
+    <!-- Book List Table -->
+    <MudTable Items="filteredBooks" Hover="true" Bordered="true" Dense="true" Class="mud-table">
+        <HeaderContent>
+            <MudTh>S.No</MudTh>
+            <MudTh>Title</MudTh>
+            <MudTh>Author</MudTh>
+            <MudTh>Year</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate Context="book">
+            <MudTd>@(filteredBooks.IndexOf(book) + 1)</MudTd>
+            <MudTd>@book.Title</MudTd>
+            <MudTd>@book.Author</MudTd>
+            <MudTd>@book.Year</MudTd>
+            <MudTd>
+                <MudButton Color="Color.Warning" OnClick="() => OpenDialog(book)" Class="mud-button-warning ml-2">
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mud-icon"></MudIcon> Edit
+                </MudButton>
+                <MudButton Color="Color.Error" OnClick="() => DeleteBook(book.Id)" Class="mud-button-error ml-2">
+                    <MudIcon Icon="@Icons.Material.Filled.Delete" Class="mud-icon"></MudIcon> Delete
+                </MudButton>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudContainer>
+
+<!-- Add/Edit Book Dialog -->
+@if (editingBook != null)
+{
+    <MudOverlay Visible="isDialogOpen" Darken="true" ZIndex="10" Class="mud-overlay">
+        <MudContainer MaxWidth="MaxWidth.Small" Class="mud-container d-flex align-center justify-center" Style="height: 100vh;">
+            <MudCard Style="width: 100%; max-width: 500px; padding: 16px;" @onclick:stopPropagation="true" Class="mud-card">
+                <MudCardHeader Class="mud-card-header">
+                    <MudText Typo="Typo.h6">@(editingBook.Id == 0 ? "Add New Book" : "Edit Book")</MudText>
+                </MudCardHeader>
+                <MudCardContent Class="mud-card-content">
+                    <MudTextField @bind-Value="editingBook.Title" Label="Title" Required="true" Immediate="true"/>
+                    <MudTextField @bind-Value="editingBook.Author" Label="Author" Required="true" Immediate="true" />
+                    <MudTextField @bind-Value="editingBook.Year" Label="Year" Required="true" Type="MudTextFieldType.Number" Immediate="true" />
+                </MudCardContent>
+                <MudCardActions Class="mud-card-actions justify-content-end">
+                    <MudButton OnClick="SaveBook" Color="Color.Primary" Size="Size.Small" Class="mud-button-success ml-2">
+                        <MudIcon Icon="@Icons.Material.Filled.Save" Class="mud-icon"></MudIcon> Save
+                    </MudButton>
+                    <MudButton OnClick="CloseDialog" Color="Color.Secondary" Size="Size.Small" Class="mud-button-error ml-2">
+                        <MudIcon Icon="@Icons.Material.Filled.Close" Class="mud-icon"></MudIcon> Cancel
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudContainer>
+    </MudOverlay>
+
+}
+
+@code {
+    private List<BookModel> books = new();
+    private List<BookModel> filteredBooks => string.IsNullOrWhiteSpace(searchQuery)
+        ? books
+        : books.Where(b => b.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           b.Author.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           b.Year.ToString().Contains(searchQuery)).ToList();
+    private string searchQuery = "";
+    private bool isDialogOpen = false;
+    private BookModel? editingBook;
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await BookService.GetBooksAsync();
+    }
+
+    private async Task SaveBook()
+    {
+        if (editingBook != null)
+        {
+            if (editingBook.Id == 0)
+                await BookService.AddBookAsync(editingBook);
+            else
+                await BookService.UpdateBookAsync(editingBook);
+
+            books = await BookService.GetBooksAsync();
+            CloseDialog();
+        }
+    }
+
+    private async Task DeleteBook(int id)
+    {
+        await BookService.DeleteBookAsync(id);
+        books = await BookService.GetBooksAsync();
+    }
+
+    private void OpenDialog(BookModel? book)
+    {
+        editingBook = book != null ? 
+            new BookModel { Id = book.Id, Title = book.Title, Author = book.Author, Year = book.Year } 
+            : new BookModel();
+        isDialogOpen = true;
+    }
+
+    private void CloseDialog()
+    {
+        isDialogOpen = false;
+    }
+
+    private void ClearSearch()
+    {
+        searchQuery = "";
+    }
+
+    private void UpdateSearch(string value)
+    {
+        searchQuery = value;
+        StateHasChanged(); // Forces UI update
+    }
+
+}
